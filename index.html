@@ -7,9 +7,9 @@
   <script type="text/javascript" src="lib/js/jquery-1.4.4.min.js"></script>
   <script type="text/javascript" src="lib/js/jquery-ui-1.8.10.custom.min.js"></script>
   
-  <script type="text/javascript" src="popcorn-js/popcorn.js"></script>
-  <script type="text/javascript" src="popcorn-js/plugins/subtitle/popcorn.subtitle.js"></script>
-  <script type="text/javascript" src="popcorn-js/parsers/parserSBV/popcorn.parseSBV.js"></script>
+  <script type="text/javascript" src="lib/popcorn-js/popcorn.js"></script>
+  <script type="text/javascript" src="lib/popcorn-js/plugins/subtitle/popcorn.subtitle.js"></script>
+  <script type="text/javascript" src="lib/popcorn-js/parsers/parserSBV/popcorn.parseSBV.js"></script>
 
   <link type="text/css" href="theband.css" rel="stylesheet"/>  
   <script type="application/javascript" src="theband.js"></script>
@@ -21,10 +21,9 @@
 
       <div id="instrumentalBox">
         <p class="introText" style="align: center;">the guitarist seems to be set</p>
-        <video width="320" height="240" id='instrumental' controls preload="auto" 
+        <video width="320" height="240" id='instrVideo' controls preload="auto" 
                data-timeline-sources="replace-me.sbv">
-          <source id='song-video-source' height="320" width="240"
-                  src="http://replace.me"></source>
+          <source id='instrVideoSource' height="320" width="240"></source>
         </video>
           <p style="text-align: right" class="introText">use the above controls to practice</p>
       </div>

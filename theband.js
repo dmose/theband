@@ -184,7 +184,34 @@ function onPlayRecordingClick() {
   $("#practice").button("refresh");
 }
 
+// XXX should sanitize
+function parseDataSourcesFromURL() {
+  if (!location.search.length) return;
+  
+  var params = location.search.slice(1).split("&");
+  for (var i = 0 ; i < params.length; ++i) {
+
+    var param = params[i].split("=");
+
+    switch (param[0]) {
+      case "videoURL": 
+        var videoURL = decodeURIComponent(param[1]);
+        console.log("videoURL = " + videoURL);
+        $("#instrVideoSource").attr("src", videoURL);
+        break;
+
+      case "lyricsURL":
+        var lyricsURL = decodeURIComponent(param[1]);
+        console.log("lyricsURL = " + lyricsURL);
+        $("#instrVideo").attr("data-timeline-sources", lyricsURL);
+        break;
+    } 
+  }
+}
+
 $(document).ready(function() {
+  
+  parseDataSourcesFromURL();
 
   setTimeout(fadeInIntroText, 2000);
   
@@ -192,7 +219,8 @@ $(document).ready(function() {
   
   recorder = new Recorder();
   
-  instrPopcorn = Popcorn('#instrumental');
+  instrPopcorn = Popcorn('#instrVideo');
+  instrPopcorn.load();
   instrPopcorn.listen("play", onInstrPlay);
   instrPopcorn.listen("pause", onInstrPause);
 
