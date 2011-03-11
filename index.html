@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>The Band</title>
+  <link type="text/css" href="lib/css/ui-darkness/jquery-ui-1.8.10.custom.css" rel="stylesheet" />
+  
+  <script type="text/javascript" src="lib/js/jquery-1.4.4.min.js"></script>
+  <script type="text/javascript" src="lib/js/jquery-ui-1.8.10.custom.min.js"></script>
+  
+  <script type="text/javascript" src="popcorn-js/popcorn.js"></script>
+  <script type="text/javascript" src="popcorn-js/plugins/subtitle/popcorn.subtitle.js"></script>
+  <script type="text/javascript" src="popcorn-js/parsers/parserSBV/popcorn.parseSBV.js"></script>
+
+  <link type="text/css" href="theband.css" rel="stylesheet"/>  
+  <script type="application/javascript" src="theband.js"></script>
+</head>
+
+<body>
+
+  <div id="container" style="display: -moz-box; -moz-box-orient: horizontal;">
+
+      <div id="instrumentalBox">
+        <p class="introText" style="align: center;">the guitarist seems to be set</p>
+        <video width="320" height="240" id='instrumental' controls preload="auto" 
+               data-timeline-sources="replace-me.sbv">
+          <source id='song-video-source' height="320" width="240"
+                  src="http://replace.me"></source>
+        </video>
+          <p style="text-align: right" class="introText">use the above controls to practice</p>
+      </div>
+
+	  <div id="videoSpacer" class="spacer"></div>
+	  
+      <div id="singerBox">
+    		<div id="indicatorLights">
+		      <input type="checkbox" id="practice" name="recordingMode" value="practice"/>
+		      <label for="practice">PRACTICE</label>
+
+          <input type="checkbox" id="recording" name="recordingMode" value="recording"/>
+          <label for="recording">RECORDING</label>
+
+          <input type="checkbox" id="onAir" name="recordingMode" value="on air"/>
+          <label for="onAir">ON AIR</label>
+
+    		</div>
+	  	<canvas id="singerCanvas" height="240" width="320"></canvas>
+	  	<video id="singerVideo" width="320" height="240" style="display:none;">
+        <source id='singerSource' height="320" width="240" type="video/ogg"></source>
+	  	</video>
+
+    	<p style="text-align: right" id="recordingPrompt">
+          when you're ready, <input type="button" id="recordButton" 
+          value="start recording!"/>
+        </p>
+      </div>
+
+  </div>
+    
+  <p id="endPrompter" style="display: none; text-align: center;">
+    I hope that was a good take!<br/>
+    <input id="playRecording" type="button" value="get the band back together"/>
+  </p>
+  
+  <input type="file" id="tehfile" style="display:none;"></input>
+  
+</body>
+</html>

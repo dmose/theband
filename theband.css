@@ -1,0 +1,32 @@
+body {
+  background: black;
+  color: white;
+}
+
+/*
+ * both container flex boxes with surrounding text
+ */ 
+#instrumentalBox,#singerBox {
+  display: -moz-box;
+  -moz-box-orient: vertical;
+}
+
+.spacer {
+  display: -moz-box;
+  width: 40px;
+}
+
+#instrumental,#singing {
+
+  border-width: medium;
+  border-style: solid;
+  border-color: #444444;
+}
+
+.indicatorLit {
+
+}
+/* starting color; we'll animate this to white.. */
+.introText {
+  color: black; 
+}
