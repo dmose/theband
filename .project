@@ -3,6 +3,8 @@
 	<name>theband</name>
 	<comment></comment>
 	<projects>
+		<project>jQuery UI 1.8.10</project>
+		<project>popcorn.js</project>
 		<project>rainbow</project>
 	</projects>
 	<buildSpec>
