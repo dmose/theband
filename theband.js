@@ -19,7 +19,6 @@ RecordingSession.prototype = {
 	startTime: 0,
     	
 	start: function start() {
-	  this.running = true;
 
   	// stop any existing recording
   	recorder.stop();
@@ -32,6 +31,8 @@ RecordingSession.prototype = {
 
    	// start recording
    	recorder.start();
+
+    this.running = true;
 
     // save the time off so we can start playback at the same place
     this.startTime = instrPopcorn.currentTime();
