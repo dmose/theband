@@ -27,8 +27,6 @@ RecordingSession.prototype = {
     // start playing the instrumental
     instrPopcorn.volume(1).play();
 
-    $("#practice").removeAttr("checked");
-    $("#practice").button("refresh");
     $("#recording").attr("checked", "checked");
     $("#recording").button("refresh");
 
@@ -102,18 +100,12 @@ function onInstrPlay() {
   // if the intro text is still around, fade it out
   $(".introText").animate({color: "black"}, 1000);
 
-  $("#practice").attr("checked", "checked");
-  $("#practice").button("refresh");
-  
   // start recording a throwaway track just so that the camera provides
   // feedback for the singer to practice...
   recorder.start();
 }
 
 function onInstrPause() {
-
-  $("#practice").removeAttr("checked");
-  $("#practice").button("refresh");
 
   $("#recording").removeAttr("checked");
   $("#recording").button("refresh");
@@ -124,18 +116,15 @@ function onInstrPause() {
 function onRecordClick() {
   if (!recordingSession.running) {
 
-  // since the record button is pressed, no need for the prompt; fade it out
-  $("#recordingPrompt").animate({color: "black"}, 1000);
+    recordingSession.start();
 
-  recordingSession.start();
-
-  $("#recordButton").val("all done")
+    $("#record").button("option", {label: "all done" });
 
   } else {
     recordingSession.stop();
 
     // ditch the button
-    $("#recordingPrompt").hide();
+    $("#record").hide();
 
     // turn off the subtitles; we don't want them now or during subsequent playback
     document.querySelector("body:last-child").lastChild.style.display = "none";
@@ -179,9 +168,6 @@ function onPlayRecordingClick() {
 
   instrPopcorn.play();
   singerPopcorn.play(); 
-  
-  $("#practice").removeAttr("checked");
-  $("#practice").button("refresh");
 }
 
 // XXX should sanitize
@@ -211,6 +197,8 @@ function parseDataSourcesFromURL() {
 
 $(document).ready(function() {
   
+  $("#record").button().click(onRecordClick);
+
   parseDataSourcesFromURL();
 
   setTimeout(fadeInIntroText, 2000);
@@ -225,9 +213,9 @@ $(document).ready(function() {
   instrPopcorn.listen("pause", onInstrPause);
 
   recordingSession = new RecordingSession();  
-  $("#recordButton").click(onRecordClick);
   
-  $("#playRecording").click(onPlayRecordingClick);
+  $("#playRecording").button().click(onPlayRecordingClick);
+  
 });
 
 $(window).unload(function () {

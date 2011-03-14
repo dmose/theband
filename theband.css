@@ -23,9 +23,6 @@ body {
   border-color: #444444;
 }
 
-.indicatorLit {
-
-}
 /* starting color; we'll animate this to white.. */
 .introText {
   color: black; 
