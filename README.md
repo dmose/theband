@@ -12,6 +12,8 @@ as there can be gotchas
 #### Demo Sites
 * Available Soon!
 
+
 #### Release notes
+* The astute performer who "gets the band back together", will notice that the recordings of the instrumentalist and singer are currently out of sync; this is to due to a [known issue in Rainbow](https://github.com/mozilla/rainbow/issues#issue/5)
 * If you're pulling a webm video file, be sure that your web server's mime.types file has the appropriate entry.
 
