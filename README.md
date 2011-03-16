@@ -23,12 +23,12 @@ An experiment in playing collaborate online music, with the first step being kar
 * Double-click on the "extensions.rainbow.allowedDomains"
 * At the beginning of the text field, right after the [ symbol, add 
 
-    `"http://redpuma.net",
+    `"http://redpuma.net",`
     
 * Click the OK button
 * The 'value' column of extensions.rainbow.allowedDomains should now read
 
-    `"["http://redpuma.net","http://localhost","http://mozilla.github.com"]`
+    `["http://redpuma.net","http://localhost","http://mozilla.github.com"]`
   
 * Close the about:config tab
 
