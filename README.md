@@ -3,16 +3,22 @@
 An experiment in playing collaborate online music, with the first step being karaoke, video style.
 
 #### Prerequisites
-* Get [Firefox 4.0b12 or later](https://www.mozilla.com/en-US/firefox/RC/)
-* Install the [Mozilla Labs Rainbow add-on, v.0.3.1 or later](https://addons.mozilla.org/en-US/firefox/addon/mozilla-labs-rainbow/)
 
-* Be sure to read the [Rainbow README](http://github.com/mozilla/rainbow/blob/master/README), as there can be gotchas, including:
+* If you don't already have it, get <a href="https://www.mozilla.com/en-US/firefox/RC/" target="_blank">Firefox 4.0 RC1 or later</a>
+* Install the <a href="https://addons.mozilla.org/en-US/firefox/addon/mozilla-labs-rainbow/" target="_blank">Mozilla Labs Rainbow add-on, v.0.3.1 or later</a>.
 * If you're on Mac (Snow Leopard in particular), after you've installed Rainbow and restarted, quit Firefox again.  Then, open Terminal.app, and type:
 
-    arch -i386 /Applications/Firefox.app/Contents/MacOS/firefox-bin
+   `arch -i386 /Applications/Firefox.app/Contents/MacOS/firefox-bin`
+
+* If you have problems along the way, review the [Rainbow README](http://github.com/mozilla/rainbow/blob/master/README), as there can be gotchas, including:
 
 #### Demo Sites
-* Available Soon!
+
+* Into the navigation (URL) bar, type
+
+     `about:config`
+     
+* * Available Soon!
 
 
 #### Release notes
