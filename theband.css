@@ -1,6 +1,8 @@
 body {
-  background: black;
-  color: white;
+  background: #333;
+  color: #ddd;
+  font-family: "HelveticaNeue", "Helvetica", "Tahoma", sans-serif;
+  text-shadow: 1px 1px 1px #222;
 }
 
 /*
@@ -17,7 +19,6 @@ body {
 }
 
 #instrVideo,#singerCanvas,#singerVideo {
-
   border-width: medium;
   border-style: solid;
   border-color: #444444;
@@ -26,4 +27,51 @@ body {
 /* starting color; we'll animate this to white.. */
 .introText {
   color: black; 
+}
+
+h1, h2 {
+  font-family: 'Tahoma';
+  margin: 0;
+}
+h1 {
+  float: left;
+  text-shadow: 0px 1px 2px #000;
+  font-variant: small-caps;
+  /* 'the band' color, change me if you'd like */
+  color: #f62;
+  cursor: default;
+}
+h2 {
+  text-align: right;
+  padding: 7px 0 10px;
+  border-bottom: 1px dotted #000;
+  /* 'karaoke for...' color, change me if you'd like */
+  color: #aaa;
+  cursor: default;
+}
+
+#pageBox {
+  margin: auto;
+  background: rgba(0,0,0,0.38);
+  padding: 10px 17px 20px;
+  width: 685px;
+  min-height: 575px;
+  border-radius: 7px;
+  border: 5px solid #1f1f1f;
+}
+
+#introduction {
+  /* text is just slightly blue */
+  color: #889;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+#performanceBox {
+  margin: 7px 0;
+}
+
+#footerBox {
+  display: block;
+  text-align: center;
 }
