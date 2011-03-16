@@ -92,6 +92,7 @@ h2 {
 #record.done .ui-button-text {
   color: white;
   text-shadow: none;
+  font-size: 18px;
 }
 
 /* jquery ui overrides */
