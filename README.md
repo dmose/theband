@@ -14,12 +14,25 @@ An experiment in playing collaborate online music, with the first step being kar
 
 #### Demo Sites
 
-* Into the navigation (URL) bar, type
+* Open a new tab, and into the navigation (URL) bar, type
 
      `about:config`
      
-* * Available Soon!
+* If necessary, click on the "I'll be careful, I promise" button
+* In the upper left corner of the page, in the filter text box, type "rainbow"
+* Double-click on the "extensions.rainbow.allowedDomains"
+* At the beginning of the text field, right after the [ symbol, add 
 
+    `"http://redpuma.net",
+    
+* Click the OK button
+* The 'value' column of extensions.rainbow.allowedDomains should now read
+* 
+    `"["redpuma.net","http://localhost","http://mozilla.github.com"]`
+  
+* Close the about:config tab
+
+* Check out <a href=-"http://redpuma.net/software/theband/" target="_blank">the demo site</a>
 
 #### Release notes
 * The astute performer who "gets the band back together", will notice that the recordings of the instrumentalist and singer are currently out of sync; this is to due to a [known issue in Rainbow](https://github.com/mozilla/rainbow/issues#issue/5)
