@@ -32,7 +32,7 @@ An experiment in playing collaborate online music, with the first step being kar
   
 * Close the about:config tab
 
-* Check out <a href=-"http://redpuma.net/software/theband/" target="_blank">the demo site</a>
+* Check out <a href="http://redpuma.net/software/theband/" target="_blank">the demo site</a>
 
 #### Release notes
 * The astute performer who "gets the band back together", will notice that the recordings of the instrumentalist and singer are currently out of sync; this is to due to a [known issue in Rainbow](https://github.com/mozilla/rainbow/issues#issue/5)
