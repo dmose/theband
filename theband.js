@@ -8,7 +8,6 @@
 var instrPopcorn;
 var singerPopcorn;
 var recorder;
-var recordButton;
  
 function RecordingSession() {
 }
@@ -225,7 +224,6 @@ $(document).ready(function() {
 });
 
 $(window).unload(function () {
-	// recordButton.stop();
 	recorder.stop();
 });
 
