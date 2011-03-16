@@ -173,27 +173,31 @@ function onPlayRecordingClick() {
 
 // XXX should sanitize
 function parseDataSourcesFromURL() {
-  if (!location.search.length) return;
   
-  var params = location.search.slice(1).split("&");
-  for (var i = 0 ; i < params.length; ++i) {
+  // some defaults  
+  var lyricsURL = "data/when-the-saints.sbv";
+  var videoURL = "data/when-the-saints.webm";
 
-    var param = params[i].split("=");
+  if (location.search.length) {  
+    var params = location.search.slice(1).split("&");
+    for (var i = 0 ; i < params.length; ++i) {
 
-    switch (param[0]) {
-      case "videoURL": 
-        var videoURL = decodeURIComponent(param[1]);
-        console.log("videoURL = " + videoURL);
-        $("#instrVideoSource").attr("src", videoURL);
-        break;
+      var param = params[i].split("=");
 
-      case "lyricsURL":
-        var lyricsURL = decodeURIComponent(param[1]);
-        console.log("lyricsURL = " + lyricsURL);
-        $("#instrVideo").attr("data-timeline-sources", lyricsURL);
-        break;
-    } 
+      switch (param[0]) {
+        case "videoURL": 
+          videoURL = decodeURIComponent(param[1]);
+          break;
+
+        case "lyricsURL":
+          var lyricsURL = decodeURIComponent(param[1]);
+          break;
+      } 
+    }
   }
+
+  $("#instrVideo").attr("data-timeline-sources", lyricsURL);        
+  $("#instrVideoSource").attr("src", videoURL);
 }
 
 $(document).ready(function() {
