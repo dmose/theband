@@ -27,8 +27,8 @@ An experiment in playing collaborate online music, with the first step being kar
     
 * Click the OK button
 * The 'value' column of extensions.rainbow.allowedDomains should now read
-* 
-    `"["redpuma.net","http://localhost","http://mozilla.github.com"]`
+
+    `"["http://redpuma.net","http://localhost","http://mozilla.github.com"]`
   
 * Close the about:config tab
 
