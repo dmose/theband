@@ -76,6 +76,24 @@ h2 {
   text-align: center;
 }
 
+#record {
+  font-size: 40px;
+  color: #900;
+}
+#record .ui-button-text {
+  padding: 20px;
+  line-height: 10px;
+  text-shadow: 0px 0px 3px #d00;
+}
+#record .ui-state-active .ui-button-text {
+  text-shadow: 0px 0px 3px #f00;
+}
+
+#record.done .ui-button-text {
+  color: white;
+  text-shadow: none;
+}
+
 /* jquery ui overrides */
 #headerBox .ui-state-disabled,
 #headerBox .ui-widget-content .ui-state-disabled,

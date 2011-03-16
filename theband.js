@@ -120,7 +120,8 @@ function onRecordClick() {
     recordingSession.start();
 
     $("#record").button("option", {label: "all done" });
-
+    $("#record").addClass('done');
+  
   } else {
     recordingSession.stop();
 
