@@ -32,19 +32,19 @@
   
     <div id="performanceBox" style="display: -moz-box; -moz-box-orient: horizontal;">
 
-      <div id="instrumentalBox">
+      <div id="instrumentalBox" width="320" height="240" style="-moz-box-overflow: hidden;">
         <video width="320" height="240" id='instrVideo' controls preload="auto" 
               data-timeline-sources="replace-me.sbv">
-          <source id='instrVideoSource' height="320" width="240"></source>
+          <source id='instrVideoSource' width="320" height="240"></source>
         </video>
       </div>
 
   	  <div id="videoSpacer" class="spacer"></div>
 	  
       <div id="singerBox">
-    	  <canvas id="singerCanvas" height="240" width="320"></canvas>
+    	  <canvas id="singerCanvas" width="320" height="240"></canvas>
 	  	  <video id="singerVideo" width="320" height="240" style="display:none;">
-          <source id='singerSource' height="320" width="240" type="video/ogg"></source>
+          <source id='singerSource' width="320" height="240" type="video/ogg"></source>
   	  	</video>
       </div>
     
