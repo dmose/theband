@@ -21,24 +21,21 @@
   <div id="pageBox">
     <header>
       <h1>The Band</h1>
-      <h2>Karaoke for your Browser</h2>
+      <h2>A Web-based Karaoke Experiment</h2>
     </header>
 
     <div id="introduction">
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
-        rhoncus ipsum et nisi scelerisque luctus. Cum sociis natoque penatibus
-        et magnis dis parturient montes, nascetur ridiculus mus. Proin leo
-        mauris, gravida id euismod ut, cursus sed lectus. 
+        Here's a simple Karaoke experiment built using HTML5, <a href="http://popcornjs.org"/>
+        popcorn.js</a>, and the Rainbow add-on to Firefox (from Mozilla
+        Labs).
       </p>
       
       <p>
-        Quisque laoreet metus in augue tincidunt gravida. Praesent malesuada
-        consectetur sapien ac imperdiet. Aenean sed nisi tortor. In hac habitasse
-        platea dictumst. Vestibulum eu convallis ligula. Ut eget leo nec mauris
-        dignissim porttitor vitae in lacus. Vestibulum ac nibh augue. Pellentesque
-        orci purus, faucibus sit amet commodo non, elementum a erat.
+        Once you've <a href="https://github.com/dmose/theband/blob/master/README.md#readme">setup the Rainbow add-on</a>, please join Jono Xia in a rendition of 
+        the "When The Saints Go Marching In"!
       </p>
+      
     </div>
     
     <div id="main" style="display: -moz-box; -moz-box-orient: vertical;">
@@ -72,7 +69,10 @@
     </div>
 
     <div id="footerBox">
-      <button id="record" title="Record">&#149;</button>
+      <button id="record" title="Record" style="display: -moz-box; -moz-box-orient: horizontal;">
+        <div id="recordDot">&#149;</div>
+        <div id="recordText">record</div>
+      </button>
 
       <p id="endPrompter" style="display: none; text-align: center;">
         I hope that was a good take!<br/>

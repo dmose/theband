@@ -38,7 +38,7 @@ h1 {
   text-shadow: 0px 1px 2px #000;
   font-variant: small-caps;
   /* 'the band' color, change me if you'd like */
-  color: #f62;
+  color: #900;
   cursor: default;
 }
 h2 {
@@ -76,17 +76,20 @@ h2 {
   text-align: center;
 }
 
-#record {
+#recordDot {
   font-size: 40px;
   color: #900;
+  padding-right: 5px;
 }
 #record .ui-button-text {
+  display: -moz-box;
+  -moz-box-orient:horizontal;
   padding: 20px;
   line-height: 10px;
-  text-shadow: 0px 0px 3px #d00;
-}
-#record .ui-state-active .ui-button-text {
+ }
+#recordDot .ui-state-active .ui-button-text {
   text-shadow: 0px 0px 3px #f00;
+
 }
 
 #record.done .ui-button-text {
