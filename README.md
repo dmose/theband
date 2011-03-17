@@ -9,8 +9,8 @@ An experiment in playing collaborate online music, with the first step being kar
 * If you're on Mac (Snow Leopard in particular), after you've installed Rainbow and restarted, quit Firefox again.  Then, open Terminal.app, and type:
 
    `arch -i386 /Applications/Firefox.app/Contents/MacOS/firefox-bin`
-
-* If you have problems along the way, review the [Rainbow README](http://github.com/mozilla/rainbow/blob/master/README), as there can be gotchas, including:
+* Note that on Linux, Rainbow doesn't yet support video recording.
+* If you run into gotchas along the way, review the [Rainbow README](https://github.com/mozilla/rainbow#readme).
 
 #### Demo Sites
 
