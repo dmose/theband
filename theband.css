@@ -55,7 +55,7 @@ h2 {
   background: rgba(0,0,0,0.38);
   padding: 10px 17px 20px;
   width: 685px;
-  min-height: 575px;
+  min-height: 480px;
   border-radius: 7px;
   border: 5px solid #1f1f1f;
 }
@@ -96,6 +96,12 @@ h2 {
   color: white;
   text-shadow: none;
   font-size: 18px;
+}
+
+#credits {
+  text-align: right; 
+  color: #888899; /* slightly blue */
+  font-size: 10px;
 }
 
 /* jquery ui overrides */
