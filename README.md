@@ -4,13 +4,12 @@ An experiment in playing collaborate online music, with the first step being kar
 
 #### Prerequisites
 
-* If you don't already have it, get <a href="https://www.mozilla.com/en-US/firefox/RC/" target="_blank">Firefox 4.0 RC1 or later</a>
+* If you don't already have it, get <a href="https://www.mozilla.com/en-US/products/download.html" target="_blank">Firefox 4.0 or later</a>
 * Install the <a href="https://addons.mozilla.org/en-US/firefox/addon/mozilla-labs-rainbow/" target="_blank">Mozilla Labs Rainbow add-on, v.0.3.1 or later</a>.
 * If you're on Mac (Snow Leopard in particular), after you've installed Rainbow and restarted, quit Firefox again.  Then, open Terminal.app, and type:
 
    `arch -i386 /Applications/Firefox.app/Contents/MacOS/firefox-bin`
 * Note that on Linux, Rainbow doesn't yet support video recording.
-* If you run into gotchas along the way, review the [Rainbow README](https://github.com/mozilla/rainbow#readme).
 
 #### Demo Sites
 
@@ -33,6 +32,8 @@ An experiment in playing collaborate online music, with the first step being kar
 * Close the about:config tab
 
 * Check out <a href="http://redpuma.net/software/theband/" target="_blank">the demo site</a>
+
+* If recording doesn't appear to be working, review the [Rainbow README](https://github.com/mozilla/rainbow#readme).
 
 #### Release notes
 * The astute performer who "gets the band back together", will notice that the recordings of the instrumentalist and singer are currently out of sync; this is to due to a [known issue in Rainbow](https://github.com/mozilla/rainbow/issues#issue/5)
