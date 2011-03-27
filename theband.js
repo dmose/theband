@@ -200,7 +200,42 @@ function parseDataSourcesFromURL() {
   $("#instrVideoSource").attr("src", videoURL);
 }
 
+function setupOWAInstaller() {
+  // XXX Remember to add script to add navigator.apps if it
+  // doesn't already exist once we're registered appropriately.
+  if (!("apps" in navigator)) {
+    $("#install").hide();
+    return;
+  }
+   
+  navigator.apps.amInstalled(function(data) {
+    console.log("data is", data);
+    if (data) {
+      $("#install").hide();
+    }
+  });
+  
+  $("#install").click(function() {
+
+    navigator.apps.install({
+      // XXX need to automate this so it will work from other installs too
+      url: "http://localhost/s/theband/theband.webapp",
+      onsuccess: function() {
+        // XXX would be nice to provide visual feedback by giving hide a duration
+        // but that's failing for reasons we don't want to debug now
+        $("#install").hide();
+      },
+      onerror: function(wtf) {
+        console.log("Installation failed:", wtf);
+      }
+    })
+    return false;
+  })
+}
+
 $(document).ready(function() {
+  
+  setupOWAInstaller();
   
   $("#record").button().click(onRecordClick);
 

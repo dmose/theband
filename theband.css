@@ -104,6 +104,17 @@ h2 {
   font-size: 10px;
 }
 
+#install {
+  text-align: left;
+  color: #888899; /* slightly blue */
+  font-size: 10px;
+}
+
+#install a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
 /* jquery ui overrides */
 #headerBox .ui-state-disabled,
 #headerBox .ui-widget-content .ui-state-disabled,
