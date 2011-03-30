@@ -1,0 +1,9 @@
+{
+  "name": "The Band",
+  "description": "Experimental HTML5 Karaoke App",
+  "installs_allowed_from": ["http://localhost"],
+  "developer": {
+    "name": "Mozilla Labs",
+    "url": "http://mozillalabs.com"
+  }
+}
