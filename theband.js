@@ -3,120 +3,118 @@
  * rainbow example code.
  */
  
-"strict";
-
 var instrPopcorn;
 var singerPopcorn;
-var recorder;
- 
+
 function RecordingSession() {
+  // avoid console whining if Rainbow isn't installed
+  if ("service" in window.navigator) {
+    this.mediaSvc = window.navigator.service.media;
+  }
+  this.ctx = document.getElementById("singerCanvas").getContext("2d");
 }
 RecordingSession.prototype = {
 
+
   recording: null, // a file, after the recording has completed 
 	running: false,
-	startTime: 0,
-    	
-	start: function start() {
+	startTime: -1,
 
-  	// stop any existing recording
-  	recorder.stop();
+	startSession: function start() {
 
-    // start playing the instrumental
-    instrPopcorn.volume(1).play();
+    // just in case a session was left running
+    try {
+	   this.mediaSvc.endSession();
+	  } catch (ex) {}
+	  
+    var self = this;
 
-    $("#recording").attr("checked", "checked");
-    $("#recording").button("refresh");
+    function onStateChange(state, args) {
+      //console.log("state change called: state = " + state + ", args = " + args);
+      switch (state) {
+        case 'session-began':
+          // the camera is warmed up, so we can allow the user to start recording
+          $("#record").button().show().click(onRecordClick);
+          break;
+          
+        case 'record-began':
 
-   	// start recording
-   	recorder.start();
+          // save the time off so we can start playback at the same place
+          self.startTime = instrPopcorn.currentTime();
 
+          $("#recording").attr("checked", "checked");
+          $("#recording").button("refresh");
+
+          // start playing the instrumental
+          instrPopcorn.volume(1).play();
+          break;
+          
+        case 'record-ended':
+          self.mediaSvc.endSession();
+          break;
+          
+        case 'record-finished':
+          // save this off so callers can use this
+          self.recording = args.files.item(0);
+          break;
+          
+        case 'error':
+          // XXX maybe propagate this to the user
+          break;
+      }
+    }
+    
+    this.session = this.mediaSvc.beginSession({width:320, height:240}, this.ctx, onStateChange);
+
+
+  },
+
+  startRecording: function rs_startRecording() {
+    this.mediaSvc.beginRecording();
     this.running = true;
-
-    // save the time off so we can start playback at the same place
-    this.startTime = instrPopcorn.currentTime();
-	}, 
-	
+  },
+  
 	stop: function stop() {
-    this.recording = recorder.stop();
-		instrPopcorn.pause();
+    // this call is async; once the file is ready, the state change observer will be notified 
+    try {
+      this.mediaSvc.endRecording();
+    } catch (ex) {}
 
-    this.running = false;
-	}, 
-	
-	toggle: function toggle() {
-		if (this.running) {
-			this.stop();
-		} else {
-			this.start();
-		}
-	}
+    try {
+      this.mediaSvc.endSession();
+    } catch (ex) {}
+    
+    try {
+      instrPopcorn.pause();
+    } catch (ex) {}
+    
+    this.running = false;    
+	} 
 }
-
-function Recorder() {
-    // avoid console whining if Rainbow isn't installed
-    if ("service" in window.navigator) {
-	  this.mediaSvc = window.navigator.service.media;
-	}
-	this.ctx = document.getElementById("singerCanvas").getContext("2d");
-}
-Recorder.prototype = {
-	
-	isRecording: false,
-
-	start: function start() {
-		this.stream = this.mediaSvc.recordToFile({width:320, height:240}, this.ctx);
-		this.isRecording = true;
-	},
-	
-  // returns a DOM File object
-  stop: function stop() {
-	  var recordedFile;
-		if ("stream" in this) {
-      try {
-		    recordedFile = this.stream.stop().files.item(0);
-		  } catch (ex) {} // no whining if there's nothing to stop
-		}
-		this.isRecording = false;
-    if (recordedFile) return recordedFile;
-    return;
-	},
-
-	toggle: function toggle() {
-		if (this.isRecording) {
-			this.stop();
-		} else {
-			this.start();
-		}
-	}
-} 
 
 function fadeInIntroText() {
   $(".introText").animate({color: "white"}, 1000);		
 }
 
 function onInstrPlay() {
-
   // if the intro text is still around, fade it out
   $(".introText").animate({color: "black"}, 1000);
-
-  // start recording a throwaway track just so that the camera provides
-  // feedback for the singer to practice...
-  recorder.start();
 }
 
 function onInstrPause() {
-
+  // YYY is this right?
   $("#recording").removeAttr("checked");
   $("#recording").button("refresh");
-  
-  recorder.stop();
 }
 
 function onRecordClick() {
   if (!recordingSession.running) {
 
-    recordingSession.start();
+    try {
+      recordingSession.startRecording();
+    } catch (ex) {
+      console.log("exception starting recording session: " + ex);
+    }
 
     $("#record").button("option", {label: "all done" });
     $("#record").addClass('done');
@@ -147,7 +145,6 @@ function onPlayRecordingClick() {
   // fade back in
   $("#container").fadeTo("fast", 1.0);
   
-  
   // replace the recording <canvas> with the Porcorny <video> of the recording
   var singerDataUrl = window.URL.createObjectURL(recordingSession.recording);
   $("#singerSource").attr("src", singerDataUrl);
@@ -166,9 +163,10 @@ function onPlayRecordingClick() {
     $("#onAir").removeAttr("checked");
     $("#onAir").button("refresh");
   });
-
+  
   instrPopcorn.play();
-  singerPopcorn.play(); 
+  singerPopcorn.play();
+
 }
 
 // XXX should sanitize
@@ -237,28 +235,26 @@ $(document).ready(function() {
   
   setupOWAInstaller();
   
-  $("#record").button().click(onRecordClick);
+  $("#record").hide();
 
   parseDataSourcesFromURL();
 
   setTimeout(fadeInIntroText, 2000);
   
   $("#indicatorLights").buttonset();
-  
-  recorder = new Recorder();
+
+  recordingSession = new RecordingSession();    
+  recordingSession.startSession();
   
   instrPopcorn = Popcorn('#instrVideo');
   instrPopcorn.load();
   instrPopcorn.listen("play", onInstrPlay);
   instrPopcorn.listen("pause", onInstrPause);
 
-  recordingSession = new RecordingSession();  
-  
   $("#playRecording").button().click(onPlayRecordingClick);
   
 });
 
 $(window).unload(function () {
-	recorder.stop();
+  recordingSession.stop();
 });
-
