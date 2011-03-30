@@ -11,15 +11,18 @@ function RecordingSession() {
   if ("service" in window.navigator) {
     this.mediaSvc = window.navigator.service.media;
   }
+  
+  if ("apps" in window.navigator) {
+    this.apps = window.navigator.apps;
+  }
   this.ctx = document.getElementById("singerCanvas").getContext("2d");
 }
 RecordingSession.prototype = {
 
-
   recording: null, // a file, after the recording has completed 
 	running: false,
 	startTime: -1,
-
+  
 	startSession: function start() {
 
     // just in case a session was left running
@@ -29,12 +32,36 @@ RecordingSession.prototype = {
 	  
     var self = this;
 
+    function snapPhotoAndFinish() {
+      var imageData = self.mediaSvc.fetchImage();
+      self.stop();
+
+      var hdr = "data:image/png;base64,";
+      self.apps.invokeService("image.send",
+        {
+          data: imageData.slice(hdr.length),
+          title: "Singing...",
+          description: "with Jono",
+          contentType: "image/png"
+        }, 
+        function onSuccess() {
+          window.open("http://www.flickr.com/dmose/", "flickrWindow");
+        },
+        function onError() {
+          console.log("error after invoking service");
+        }
+      );
+
+    }
+
     function onStateChange(state, args) {
       //console.log("state change called: state = " + state + ", args = " + args);
       switch (state) {
         case 'session-began':
-          // the camera is warmed up, so we can allow the user to start recording
+          // the camera is warmed up, so we can allow the user to play
           $("#record").button().show().click(onRecordClick);
+          $("#play").button().show().click(function() { instrPopcorn.volume(1).play();})
+          $("#snapPhoto").button().show().click(snapPhotoAndFinish);
           break;
           
         case 'record-began':
@@ -65,8 +92,6 @@ RecordingSession.prototype = {
     }
     
     this.session = this.mediaSvc.beginSession({width:320, height:240}, this.ctx, onStateChange);
-
-
   },
 
   startRecording: function rs_startRecording() {
@@ -78,11 +103,15 @@ RecordingSession.prototype = {
     // this call is async; once the file is ready, the state change observer will be notified 
     try {
       this.mediaSvc.endRecording();
-    } catch (ex) {}
+    } catch (ex) {
+      //console.log("endRecording failed: " + ex);
+    }
 
     try {
       this.mediaSvc.endSession();
-    } catch (ex) {}
+    } catch (ex) {
+      //console.log("endSession failed: " + ex);
+    }
     
     try {
       instrPopcorn.pause();
@@ -122,9 +151,11 @@ function onRecordClick() {
   } else {
     recordingSession.stop();
 
-    // ditch the button
+    // ditch the buttons until they're actually usable
     $("#record").hide();
-
+    // YYY $("#snapPhoto").hide();
+    // YYY $("#play").hide();
+    
     // turn off the subtitles; we don't want them now or during subsequent playback
     document.querySelector("body:last-child").lastChild.style.display = "none";
 
@@ -235,8 +266,11 @@ $(document).ready(function() {
   
   setupOWAInstaller();
   
+  // hide buttons until they're ready to use
   $("#record").hide();
-
+  $("#play").hide();
+  $("#snapPhoto").hide();
+  
   parseDataSourcesFromURL();
 
   setTimeout(fadeInIntroText, 2000);
