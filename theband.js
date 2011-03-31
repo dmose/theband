@@ -24,10 +24,12 @@ RecordingSession.prototype = {
   recording: null, // a file, after the recording has completed 
 	running: false,
 	startTime: -1,
-  
+  state: "uninitialized",
+    
 	startSession: function start() {
 
     // just in case a session was left running
+    // YYY ask anant if this risks a crash
     try {
 	   this.mediaSvc.endSession();
 	  } catch (ex) {}
@@ -43,6 +45,8 @@ RecordingSession.prototype = {
 
     function onStateChange(state, args) {
       //console.log("state change called: state = " + state + ", args = " + args);
+      this.state = state;
+
       switch (state) {
         case 'session-began':
 
@@ -95,16 +99,15 @@ RecordingSession.prototype = {
   
 	stop: function stop() {
     // this call is async; once the file is ready, the state change observer will be notified 
-    try {
-      this.mediaSvc.endRecording();
-    } catch (ex) {
-      //console.log("endRecording failed: " + ex);
-    }
 
-    try {
-      this.mediaSvc.endSession();
-    } catch (ex) {
-      //console.log("endSession failed: " + ex);
+    switch (this.state) {
+      case "record-began":
+        this.mediaSvc.endRecording();
+        break;
+        
+      case "record-ended":
+        this.mediaSvc.endSession();
+        break;
     }
     
     try {
@@ -291,7 +294,7 @@ function sendImageURL(imageDataURL) {
           function () {
             // YYY hardcoded
             window.open("http://www.flickr.com/dmose/", "flickrWindow");
-          }, 3500);
+          }, 4000);
     },
     function onError() {
       console.log("error after invoking service");
