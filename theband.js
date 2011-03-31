@@ -29,7 +29,6 @@ RecordingSession.prototype = {
 	startSession: function start() {
 
     // just in case a session was left running
-    // YYY ask anant if this risks a crash
     try {
 	   this.mediaSvc.endSession();
 	  } catch (ex) {}
@@ -44,8 +43,8 @@ RecordingSession.prototype = {
     }
 
     function onStateChange(state, args) {
-      //console.log("state change called: state = " + state + ", args = " + args);
-      this.state = state;
+      console.log("state change called: state = " + state + ", args = " + args);
+      self.state = state;
 
       switch (state) {
         case 'session-began':
@@ -81,6 +80,10 @@ RecordingSession.prototype = {
         case 'record-finished':
           // save this off so callers can use this
           self.recording = args.files.item(0);
+
+          // we now have a file that we can play back, so allow the user
+          // to do that
+          $("#endPrompter").show(1000);
           break;
           
         case 'error':
@@ -99,7 +102,6 @@ RecordingSession.prototype = {
   
 	stop: function stop() {
     // this call is async; once the file is ready, the state change observer will be notified 
-
     switch (this.state) {
       case "record-began":
         this.mediaSvc.endRecording();
@@ -162,7 +164,7 @@ function onRecordClick() {
 
     // fade the whole container
     $("#container").fadeTo(3000, 0.33);
-    $("#endPrompter").show(1000);
+
   }
 }
 
