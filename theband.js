@@ -206,12 +206,12 @@ function pauseAndSnapPhotoFromPlayback() {
   singerPopcorn.pause();
   instrPopcorn.pause();
 
-  var singerCanvas = $("#singerCanvas").get(0);
+  var scratchCanvas = $("#scratchCanvas").get(0);
   var singerVideo = $("#singerVideo").get(0);
-  var singerContext = singerCanvas.getContext("2d"); 
-  singerContext.drawImage(singerVideo, 0, 0, 320, 200);
+  var scratchContext = scratchCanvas.getContext("2d"); 
+  scratchContext.drawImage(singerVideo, 0, 0, 320, 200);
 
-  sendImageURL(singerCanvas.toDataURL()); 
+  sendImageURL(scratchCanvas.toDataURL()); 
 }
 
 // XXX should sanitize
