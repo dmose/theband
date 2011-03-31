@@ -186,7 +186,7 @@ function onPlayRecordingClick() {
   // recording started
   instrPopcorn.currentTime(recordingSession.startTime);
 
-  $("#snapPhoto").button().show().click(snapPhotoFromPlayback);
+  $("#snapPhoto").button().show().click(pauseAndSnapPhotoFromPlayback);
   
   // and once the recording finishes, we stop playing the instrumental  
   singerPopcorn.listen("ended", function() {
@@ -200,8 +200,11 @@ function onPlayRecordingClick() {
 
 }
 
-function snapPhotoFromPlayback() {
+function pauseAndSnapPhotoFromPlayback() {
   console.log("called snapPhotoFromPlayback");
+
+  singerPopcorn.pause();
+  instrPopcorn.pause();
 
   var singerCanvas = $("#singerCanvas").get(0);
   var singerVideo = $("#singerVideo").get(0);
@@ -209,7 +212,6 @@ function snapPhotoFromPlayback() {
   singerContext.drawImage(singerVideo, 0, 0, 320, 200);
 
   sendImageURL(singerCanvas.toDataURL()); 
-
 }
 
 // XXX should sanitize
