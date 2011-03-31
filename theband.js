@@ -38,8 +38,7 @@ RecordingSession.prototype = {
       var imageData = self.mediaSvc.fetchImage();
       self.stop();
 
-      var hdr = "data:image/png;base64,";
-      sendImage(imageData.slice(hdr.length));
+      sendImageURL(imageData);
     }
 
     function onStateChange(state, args) {
@@ -203,10 +202,14 @@ function onPlayRecordingClick() {
 
 function snapPhotoFromPlayback() {
   console.log("called snapPhotoFromPlayback");
-  
-  // XXX implement MDC rouget hack
-  
-  // XXX call sendImage() with data
+
+  var singerCanvas = $("#singerCanvas").get(0);
+  var singerVideo = $("#singerVideo").get(0);
+  var singerContext = singerCanvas.getContext("2d"); 
+  singerContext.drawImage(singerVideo, 0, 0, 320, 200);
+
+  sendImageURL(singerCanvas.toDataURL()); 
+
 }
 
 // XXX should sanitize
@@ -271,10 +274,10 @@ function setupOWAInstaller() {
   })
 }
 
-function sendImage(imageData) {
+function sendImageURL(imageDataURL) {
   navigator.apps.invokeService("image.send",
     {
-      data: imageData,
+      data: imageDataURL.slice("data:image/png;base64,".length),
       // XXX hardcoded
       title: "Singing 'Oh When the Saints'",
       description: "with Jono and friends",
@@ -286,7 +289,7 @@ function sendImage(imageData) {
           function () {
             // YYY hardcoded
             window.open("http://www.flickr.com/dmose/", "flickrWindow");
-          }, 3000);
+          }, 3500);
     },
     function onError() {
       console.log("error after invoking service");
