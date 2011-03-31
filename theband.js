@@ -271,10 +271,10 @@ function setupOWAInstaller() {
   })
 }
 
-function sendImage(imageData, imageLength) {
-  self.apps.invokeService("image.send",
+function sendImage(imageData) {
+  navigator.apps.invokeService("image.send",
     {
-      data: imagelength,
+      data: imageData,
       // XXX hardcoded
       title: "Singing 'Oh When the Saints'",
       description: "with Jono and friends",
@@ -284,6 +284,7 @@ function sendImage(imageData, imageLength) {
       console.log("success args: " + args);
         setTimeout(
           function () {
+            // YYY hardcoded
             window.open("http://www.flickr.com/dmose/", "flickrWindow");
           }, 3000);
     },
