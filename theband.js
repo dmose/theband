@@ -6,6 +6,8 @@
 var instrPopcorn;
 var singerPopcorn;
 
+var snapshotOnlyMode = false;
+
 function RecordingSession() {
   // avoid console whining if Rainbow isn't installed
   if ("service" in window.navigator) {
@@ -37,31 +39,24 @@ RecordingSession.prototype = {
       self.stop();
 
       var hdr = "data:image/png;base64,";
-      self.apps.invokeService("image.send",
-        {
-          data: imageData.slice(hdr.length),
-          title: "Singing...",
-          description: "with Jono",
-          contentType: "image/png"
-        }, 
-        function onSuccess() {
-          window.open("http://www.flickr.com/dmose/", "flickrWindow");
-        },
-        function onError() {
-          console.log("error after invoking service");
-        }
-      );
-
+      sendImage(imageData.slice(hdr.length));
     }
 
     function onStateChange(state, args) {
       //console.log("state change called: state = " + state + ", args = " + args);
       switch (state) {
         case 'session-began':
+
           // the camera is warmed up, so we can allow the user to play
-          $("#record").button().show().click(onRecordClick);
-          $("#play").button().show().click(function() { instrPopcorn.volume(1).play();})
-          $("#snapPhoto").button().show().click(snapPhotoAndFinish);
+          
+          if (snapshotOnlyMode) {
+            $("#snapPhoto").button().click(snapPhotoAndFinish).show();
+            $("#play").button().show().click(
+              function() { instrPopcorn.volume(1).play();})            
+          } else {
+            $("#snapPhoto").hide(); // configure & show later during playback
+            $("#record").button().show().click(onRecordClick);
+          }
           break;
           
         case 'record-began':
@@ -128,9 +123,13 @@ function fadeInIntroText() {
 function onInstrPlay() {
   // if the intro text is still around, fade it out
   $(".introText").animate({color: "black"}, 1000);
+  $("#play").button("option", {label: "pause"});
+  // XXX add pause symbol
 }
 
 function onInstrPause() {
+  instrPopcorn.pause();
+
   // YYY is this right?
   $("#recording").removeAttr("checked");
   $("#recording").button("refresh");
@@ -187,6 +186,8 @@ function onPlayRecordingClick() {
   // be sure that we start playing the instrumental at the time that the
   // recording started
   instrPopcorn.currentTime(recordingSession.startTime);
+
+  $("#snapPhoto").button().show().click(snapPhotoFromPlayback);
   
   // and once the recording finishes, we stop playing the instrumental  
   singerPopcorn.listen("ended", function() {
@@ -194,10 +195,18 @@ function onPlayRecordingClick() {
     $("#onAir").removeAttr("checked");
     $("#onAir").button("refresh");
   });
-  
+
   instrPopcorn.play();
   singerPopcorn.play();
 
+}
+
+function snapPhotoFromPlayback() {
+  console.log("called snapPhotoFromPlayback");
+  
+  // XXX implement MDC rouget hack
+  
+  // XXX call sendImage() with data
 }
 
 // XXX should sanitize
@@ -262,21 +271,50 @@ function setupOWAInstaller() {
   })
 }
 
+function sendImage(imageData, imageLength) {
+  self.apps.invokeService("image.send",
+    {
+      data: imagelength,
+      // XXX hardcoded
+      title: "Singing 'Oh When the Saints'",
+      description: "with Jono and friends",
+      contentType: "image/png"
+    },
+    function onSuccess(args) {
+      console.log("success args: " + args);
+        setTimeout(
+          function () {
+            window.open("http://www.flickr.com/dmose/", "flickrWindow");
+          }, 3000);
+    },
+    function onError() {
+      console.log("error after invoking service");
+    });
+}
+
+function setupSnapshotOnlyMode() {
+  $("#indicatorLights").hide();
+}
+
 $(document).ready(function() {
-  
+
+  $("#indicatorLights").buttonset();
+
   setupOWAInstaller();
+  
+  if (snapshotOnlyMode) {
+    setupSnapshotOnlyMode();
+  }
   
   // hide buttons until they're ready to use
   $("#record").hide();
   $("#play").hide();
   $("#snapPhoto").hide();
-  
+
   parseDataSourcesFromURL();
 
   setTimeout(fadeInIntroText, 2000);
   
-  $("#indicatorLights").buttonset();
-
   recordingSession = new RecordingSession();    
   recordingSession.startSession();
   
