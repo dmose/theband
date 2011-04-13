@@ -6,10 +6,10 @@
     
     <meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; width=device-width;">
     
-    <link rel="stylesheet" href="style.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="prereqs.css" type="text/css" media="screen">
     <link rel="icon" type="image/x-icon" href="favicon.png">
     
-    <script src="js/jquery-1.5.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="lib/js/jquery-1.4.4.min.js" type="text/javascript" charset="utf-8"></script>
 
     <script type="text/javascript">
     $(document).ready(function() {
@@ -29,7 +29,7 @@
             if (!rb) $("#rainbow_getit").css("display", "block");
             if (!ow) $("#owa_getit").css("display", "block");
         } else {
-            window.location = "rainbooth.html"
+            window.location = "theband.html"
         }
 
         $("#rbadd").bind('click', function() {
@@ -55,10 +55,10 @@
         
             <div id="upsell" class="clearfix">
             
-                <div id="adtext" style="display:none;"><strong>Uh oh!</strong> You need the following add-ons to run Rainbooth:</div>
+                <div id="adtext" style="display:none;"><strong>Uh oh!</strong> You need the following add-ons to use The Band:</div>
                 
                 <div id="rainbow_getit" class="clearfix"  style="display:none;">
-                    <input type="button" id="rbadd" value="install rainbow" />
+                    <input type="button" id="rbadd" value="install Rainbow" />
                     <div class="description">
                         <strong>Rainbow</strong> - allows webpages to use your webcam with your permission.
                     </div>
