@@ -11,6 +11,7 @@ var snapshotOnlyMode = false;
 function RecordingSession() {
   // avoid console whining if Rainbow isn't installed
   if ("service" in window.navigator) {
+    console.log("no media service found");
     this.mediaSvc = window.navigator.service.media;
   }
   
@@ -104,10 +105,12 @@ RecordingSession.prototype = {
     // this call is async; once the file is ready, the state change observer will be notified 
     switch (this.state) {
       case "record-began":
+        console.log("about to call endRecording");
         this.mediaSvc.endRecording();
         break;
         
       case "record-ended":
+        console.log("about to call endSession");
         this.mediaSvc.endSession();
         break;
     }
