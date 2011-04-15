@@ -284,6 +284,27 @@ function setupOWAInstaller() {
   })
 }
 
+
+
+function openHomepage() {
+  
+  navigator.apps.invokeService("homepage.get", {},
+    function onSuccess(homepageUrl) {
+      console.log("homepageURL = " + homepageUrl);
+ 
+      // wait 4 seconds to give flickr time to receive the image.  yuck.
+      setTimeout(
+        function () {
+          // YYY hardcoded
+          window.open("http://www.flickr.com/dmose/", "flickrWindow");
+        }, 4000);
+          
+    },
+    function onError(args) {
+      console.log("homepage.get error:" + args);
+    });
+}
+
 function sendImageURL(imageDataURL) {
   navigator.apps.invokeService("image.send",
     {
@@ -295,11 +316,7 @@ function sendImageURL(imageDataURL) {
     },
     function onSuccess(args) {
       console.log("success args: " + args);
-        setTimeout(
-          function () {
-            // YYY hardcoded
-            window.open("http://www.flickr.com/dmose/", "flickrWindow");
-          }, 4000);
+      openHomepage();
     },
     function onError() {
       console.log("error after invoking service");
