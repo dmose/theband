@@ -183,9 +183,7 @@ function onPlayRecordingClick() {
   // we're broadcasting!
   $("#onAir").attr("checked", "checked");
   $("#onAir").button("refresh");
-
-  $("#endPrompter").hide()
-
+  
   // fade back in
   $("#container").fadeTo("fast", 1.0);
   
@@ -214,6 +212,8 @@ function onPlayRecordingClick() {
   instrPopcorn.play();
   singerPopcorn.play();
 
+  // allow restarting
+  $("#playRecording").button("option", {label: "play it again, Sam!" });
 }
 
 function pauseAndSnapPhotoFromPlayback() {
