@@ -95,7 +95,11 @@ RecordingSession.prototype = {
     try {
       this.session = this.mediaSvc.beginSession({width:320, height:240}, this.ctx, onStateChange);
     } catch (ex) {
+      // OK, Rainbow is somehow failing...
       console.log("beginSession failed: " + ex);
+      
+      // As a teaser, add controls to the instrumental video so the user can play
+      $("#instrVideo").attr("controls", true);
     }
   },
 
