@@ -15,20 +15,14 @@
     $(document).ready(function() {
             
         var rb = false;
-        var ow = true; // XXX need to make the UX flow smoother before requiring this
         
         if (window.navigator.service && window.navigator.service.media) {
             rb = true;
         }
-        if (window.navigator.apps && window.navigator.apps.invokeService) {
-            ow = true;
-            
-        }
         
-        if (!rb || !ow) {
+        if (!rb) {
             $("#adtext").css("display", "block");
-            if (!rb) $("#rainbow_getit").css("display", "block");
-            if (!ow) $("#owa_getit").css("display", "block");
+            $("#rainbow_getit").css("display", "block");
         } else {
             window.location = "theband.html"
         }
@@ -36,10 +30,7 @@
         $("#rbadd").bind('click', function() {
             window.open('rainbow-0.4-dev-mac.xpi');
         });
-        $("#owadd").bind('click', function() {
-            window.open('openwebapps-0.2-dev.xpi');
-        });
-        
+
         $(window).bind('load resize', function() {
             var h = $(window).height();
             $("#upsellWrap").css({ "height" : h });
@@ -65,14 +56,6 @@
                     </div>
                 </div>
                 
-                <div id="owa_getit" class="clearfix"  style="display:none;">
-                    <input type="button" id="owadd" value="Install OpenWebApps" />
-                    <div class="description">
-                        <strong>OpenWebApps</strong> - Adds native browser support for Open Web Applications.
-                    </div>
-                </div>
-            </div>
-            
         </div>
         
     </div>
