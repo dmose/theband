@@ -194,7 +194,8 @@ function onPlayRecordingClick() {
   // recording started
   instrPopcorn.currentTime(recordingSession.startTime);
 
-  $("#snapPhoto").button().show().click(pauseAndSnapPhotoFromPlayback);
+  // XXX sharing flow still too painful with too many prereqs
+  //$("#snapPhoto").button().show().click(pauseAndSnapPhotoFromPlayback);
   
   // and once the recording finishes, we stop playing the instrumental  
   singerPopcorn.listen("ended", function() {
@@ -226,8 +227,10 @@ function pauseAndSnapPhotoFromPlayback() {
 function parseDataSourcesFromURL() {
   
   // some defaults  
-  var lyricsURL = "data/when-the-saints.sbv";
-  var videoURL = "data/when-the-saints.webm";
+  //var lyricsURL = "data/when-the-saints.sbv";
+  //var videoURL = "data/when-the-saints.webm";
+  var lyricsURL = "data/amazing-grace.sbv";
+  var videoURL = "data/amazing-grace.webm";
 
   if (location.search.length) {  
     var params = location.search.slice(1).split("&");
