@@ -15,13 +15,14 @@
     $(document).ready(function() {
             
         var rb = false;
-        var ow = false;
+        var ow = true; // XXX need to make the UX flow smoother before requiring this
         
         if (window.navigator.service && window.navigator.service.media) {
             rb = true;
         }
         if (window.navigator.apps && window.navigator.apps.invokeService) {
             ow = true;
+            
         }
         
         if (!rb || !ow) {
