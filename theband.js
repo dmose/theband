@@ -92,8 +92,11 @@ RecordingSession.prototype = {
           break;
       }
     }
-    
-    this.session = this.mediaSvc.beginSession({width:320, height:240}, this.ctx, onStateChange);
+    try {
+      this.session = this.mediaSvc.beginSession({width:320, height:240}, this.ctx, onStateChange);
+    } catch (ex) {
+      console.log("beginSession failed: " + ex);
+    }
   },
 
   startRecording: function rs_startRecording() {
