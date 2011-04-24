@@ -1,6 +1,6 @@
 ## The Band
 
-An experiment in playing collaborate online music, with the first step being karaoke, video style.
+An experiment in playing collaborate online music, with the first step being karaoke, video style.  See <a href="http://redpuma.net/blog/?p=858">the blog post</a> for significantly more detail.
 
 #### Prerequisites
 
