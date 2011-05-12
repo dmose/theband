@@ -146,7 +146,7 @@ h2 {
 #headerBox .ui-widget-header .ui-state-disabled {
   opacity: .8;
   filter:Alpha(Opacity=80);
-  background-image: url(lib/css/ui-darkness/images/ui-bg_glass_20_555555_1x400.png);
+  background-image: url(lib/css/ui-darkness/images/ui-bg_flat_50_5c5c5c_40x100.png); */
 }
 
 #headerBox .ui-state-active.ui-state-disabled {
