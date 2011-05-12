@@ -18,7 +18,7 @@ body {
   width: 40px;
 }
 
-#instrVideo,#singerCanvas,#singerVideo {
+#instrVideo,#singerCanvas,#singerVideo,#getRainbowDiv {
   border-width: medium;
   border-style: solid;
   border-color: #444444;
@@ -127,6 +127,17 @@ h2 {
 #install a {
   color: inherit;
   text-decoration: inherit;
+}
+
+/* XXX probably should be doing box model magic here rather than hardcoding sizes */
+#getRainbowDiv {
+  width: 320px;
+  height: 246px; 
+}
+
+#getRainbowButton {
+  margin-top: 50px;
+  margin-left: 66px;
 }
 
 /* jquery ui overrides */

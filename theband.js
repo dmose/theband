@@ -100,6 +100,13 @@ RecordingSession.prototype = {
       
       // As a teaser, add controls to the instrumental video so the user can play
       $("#instrVideo").attr("controls", true);
+      
+      // And encourage the user to install rainbow in order to 
+      $("#singerCanvas").hide();
+      $("#getRainbowButton").button().bind('click', function() {
+        window.open('https://addons.mozilla.org/en-US/firefox/addon/mozilla-labs-rainbow/');
+      });
+      $("#getRainbowDiv").show();
     }
   },
 
