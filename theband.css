@@ -8,7 +8,7 @@ body {
 /*
  * both container flex boxes with surrounding text
  */ 
-#instrumentalBox,#singerBox {
+#instrumentalBox,#singerBox,#getRainbowDiv {
   display: -moz-box;
   -moz-box-orient: vertical;
 }
@@ -129,15 +129,30 @@ h2 {
   text-decoration: inherit;
 }
 
-/* XXX probably should be doing box model magic here rather than hardcoding sizes */
 #getRainbowDiv {
+  -moz-box-pack: center;
+
+  /* XXX probably should be doing box model magic here rather than hardcoding sizes */
   width: 320px;
   height: 246px; 
 }
 
+#getRainbowUpsellText {
+  text-align: center;
+  margin-left: 3em;
+  margin-right: 3em;
+  font-style: italic;
+}
+
+#buttonCenteringBox {
+   display: -moz-box;
+   -moz-box-orient: horizontal;
+   -moz-box-pack: center;
+}
+
 #getRainbowButton {
-  margin-top: 50px;
-  margin-left: 66px;
+  overflow: hidden;
+  font-size: 0.9em;
 }
 
 /* jquery ui overrides */
