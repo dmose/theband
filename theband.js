@@ -11,7 +11,6 @@ var snapshotOnlyMode = false;
 function RecordingSession() {
   // avoid console whining if Rainbow isn't installed
   if ("service" in window.navigator) {
-    console.log("no media service found");
     this.mediaSvc = window.navigator.service.media;
   }
   
