@@ -2,11 +2,78 @@
  * @author Most code by Dan Mosedale.  Some pieces borrowed from popcorn.js and
  * rainbow example code.
  */
- 
+
+/*global window,$,console,Popcorn*/ 
 var instrPopcorn;
 var singerPopcorn;
-
+var recordingSession;
 var snapshotOnlyMode = false;
+
+function openHomepage() {
+  
+  navigator.apps.invokeService("homepage.get", {},
+    function onSuccess(homepageUrl) {
+      console.log("homepageURL = " + homepageUrl);
+ 
+      // wait 4 seconds to give flickr time to receive the image.  yuck.
+      setTimeout(
+        function () {
+          // YYY hardcoded
+          window.open("http://www.flickr.com/dmose/", "flickrWindow");
+        }, 4000);
+          
+    },
+    function onError(args) {
+      console.log("homepage.get error:" + args);
+    });
+}
+
+function sendImageURL(imageDataURL) {
+  navigator.apps.invokeService("image.send",
+    {
+      data: imageDataURL.slice("data:image/png;base64,".length),
+      // XXX hardcoded
+      title: "Singing 'Oh When the Saints'",
+      description: "with Jono and friends",
+      contentType: "image/png"
+    },
+    function onSuccess(args) {
+      console.log("success args: " + args);
+      openHomepage();
+    },
+    function onError() {
+      console.log("error after invoking service");
+    });
+}
+
+function onRecordClick() {
+  if (!recordingSession.running) {
+
+    try {
+      recordingSession.startRecording();
+    } catch (ex) {
+      console.log("exception starting recording session: " + ex);
+    }
+
+    $("#record").button("option", {label: "all done" });
+    $("#record").addClass('done');
+  
+  } else {
+    recordingSession.stop();
+
+    // ditch the buttons until they're actually usable
+    $("#record").hide();
+    // YYY $("#snapPhoto").hide();
+    // YYY $("#play").hide();
+    
+    // turn off the subtitles; we don't want them now or during subsequent playback
+    document.querySelector("body:last-child").lastChild.style.display = "none";
+
+    // fade the whole container
+    $("#container").fadeTo(3000, 0.33);
+
+  }
+}
 
 function RecordingSession() {
   // avoid console whining if Rainbow isn't installed
@@ -54,7 +121,7 @@ RecordingSession.prototype = {
           if (snapshotOnlyMode) {
             $("#snapPhoto").button().click(snapPhotoAndFinish).show();
             $("#play").button().show().click(
-              function() { instrPopcorn.volume(1).play();})            
+              function() { instrPopcorn.volume(1).play();});           
           } else {
             $("#snapPhoto").hide(); // configure & show later during playback
             $("#record").button().show().click(onRecordClick);
@@ -93,9 +160,9 @@ RecordingSession.prototype = {
     }
     try {
       this.session = this.mediaSvc.beginSession({width:320, height:240}, this.ctx, onStateChange);
-    } catch (ex) {
+    } catch (e) {
       // OK, Rainbow is somehow failing...
-      console.log("beginSession failed: " + ex);
+      console.log("beginSession failed: " + e);
       
       // As a teaser, add controls to the instrumental video so the user can play
       $("#instrVideo").attr("controls", true);
@@ -134,7 +201,7 @@ RecordingSession.prototype = {
     
     this.running = false;    
 	} 
-}
+};
 
 function fadeInIntroText() {
   $(".introText").animate({color: "white"}, 1000);		
@@ -155,33 +222,19 @@ function onInstrPause() {
   $("#recording").button("refresh");
 }
 
-function onRecordClick() {
-  if (!recordingSession.running) {
 
-    try {
-      recordingSession.startRecording();
-    } catch (ex) {
-      console.log("exception starting recording session: " + ex);
-    }
+function pauseAndSnapPhotoFromPlayback() {
+  console.log("called snapPhotoFromPlayback");
 
-    $("#record").button("option", {label: "all done" });
-    $("#record").addClass('done');
-  
-  } else {
-    recordingSession.stop();
+  singerPopcorn.pause();
+  instrPopcorn.pause();
 
-    // ditch the buttons until they're actually usable
-    $("#record").hide();
-    // YYY $("#snapPhoto").hide();
-    // YYY $("#play").hide();
-    
-    // turn off the subtitles; we don't want them now or during subsequent playback
-    document.querySelector("body:last-child").lastChild.style.display = "none";
+  var scratchCanvas = $("#scratchCanvas").get(0);
+  var singerVideo = $("#singerVideo").get(0);
+  var scratchContext = scratchCanvas.getContext("2d"); 
+  scratchContext.drawImage(singerVideo, 0, 0, 320, 200);
 
-    // fade the whole container
-    $("#container").fadeTo(3000, 0.33);
-
-  }
+  sendImageURL(scratchCanvas.toDataURL()); 
 }
 
 function onPlayRecordingClick() {
@@ -198,7 +251,7 @@ function onPlayRecordingClick() {
   $("#singerSource").attr("src", singerDataUrl);
   $("#singerCanvas").hide();  
   $("#singerVideo").show();
-  singerPopcorn = Popcorn("#singerVideo")
+  singerPopcorn = Popcorn("#singerVideo");
   singerPopcorn.load(); 
     
   // be sure that we start playing the instrumental at the time that the
@@ -206,7 +259,7 @@ function onPlayRecordingClick() {
   instrPopcorn.currentTime(recordingSession.startTime);
 
   // XXX sharing flow still too painful with too many prereqs
-  //$("#snapPhoto").button().show().click(pauseAndSnapPhotoFromPlayback);
+  $("#snapPhoto").button().show().click(pauseAndSnapPhotoFromPlayback);
   
   // and once the recording finishes, we stop playing the instrumental  
   singerPopcorn.listen("ended", function() {
@@ -222,19 +275,6 @@ function onPlayRecordingClick() {
   $("#playRecording").button("option", {label: "play it again, Sam!" });
 }
 
-function pauseAndSnapPhotoFromPlayback() {
-  console.log("called snapPhotoFromPlayback");
-
-  singerPopcorn.pause();
-  instrPopcorn.pause();
-
-  var scratchCanvas = $("#scratchCanvas").get(0);
-  var singerVideo = $("#singerVideo").get(0);
-  var scratchContext = scratchCanvas.getContext("2d"); 
-  scratchContext.drawImage(singerVideo, 0, 0, 320, 200);
-
-  sendImageURL(scratchCanvas.toDataURL()); 
-}
 
 // XXX should sanitize
 function parseDataSourcesFromURL() {
@@ -257,7 +297,7 @@ function parseDataSourcesFromURL() {
           break;
 
         case "lyricsURL":
-          var lyricsURL = decodeURIComponent(param[1]);
+          lyricsURL = decodeURIComponent(param[1]);
           break;
       } 
     }
@@ -295,48 +335,10 @@ function setupOWAInstaller() {
       onerror: function(wtf) {
         console.log("Installation failed:", wtf);
       }
-    })
+    });
+    
     return false;
-  })
-}
-
-
-
-function openHomepage() {
-  
-  navigator.apps.invokeService("homepage.get", {},
-    function onSuccess(homepageUrl) {
-      console.log("homepageURL = " + homepageUrl);
- 
-      // wait 4 seconds to give flickr time to receive the image.  yuck.
-      setTimeout(
-        function () {
-          // YYY hardcoded
-          window.open("http://www.flickr.com/dmose/", "flickrWindow");
-        }, 4000);
-          
-    },
-    function onError(args) {
-      console.log("homepage.get error:" + args);
-    });
-}
-
-function sendImageURL(imageDataURL) {
-  navigator.apps.invokeService("image.send",
-    {
-      data: imageDataURL.slice("data:image/png;base64,".length),
-      // XXX hardcoded
-      title: "Singing 'Oh When the Saints'",
-      description: "with Jono and friends",
-      contentType: "image/png"
-    },
-    function onSuccess(args) {
-      console.log("success args: " + args);
-      openHomepage();
-    },
-    function onError() {
-      console.log("error after invoking service");
-    });
+  });
 }
 
 function setupSnapshotOnlyMode() {
