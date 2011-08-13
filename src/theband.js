@@ -9,6 +9,10 @@ var singerPopcorn;
 var recordingSession;
 var snapshotOnlyMode = false;
 
+ // for functional testing
+var disableMediaSvc = false;
+var disableWebApps = false;
+
 function openHomepage() {
   
   navigator.apps.invokeService("homepage.get", {},
@@ -77,7 +81,7 @@ function onRecordClick() {
 
 function RecordingSession() {
   // avoid console whining if Rainbow isn't installed
-  if ("service" in window.navigator) {
+  if ("service" in window.navigator && !disableMediaSvc) {
     this.mediaSvc = window.navigator.service.media;
   }
   
@@ -310,7 +314,7 @@ function parseDataSourcesFromURL() {
 function setupOWAInstaller() {
   // XXX Remember to add script to add navigator.apps if it
   // doesn't already exist once we're registered appropriately.
-  if (!("apps" in navigator)) {
+  if (!("apps" in navigator) || disableWebApps) {
     $("#install").hide();
     return;
   }
@@ -326,7 +330,7 @@ function setupOWAInstaller() {
 
     navigator.apps.install({
       // XXX need to automate this so it will work from other installs too
-      url: "http://localhost/s/theband/theband.webapp",
+      url: "http://localhost/s/video/theband/src/theband.webapp",
       onsuccess: function() {
         // XXX would be nice to provide visual feedback by giving hide a duration
         // but that's failing for reasons we don't want to debug now
@@ -347,6 +351,14 @@ function setupSnapshotOnlyMode() {
 
 $(document).ready(function() {
 
+  if (window.location.search.search(/norainbow/) > 0) {
+    disableMediaSvc = true;
+  }
+  
+  if (window.location.search.search(/nowebapps/) > 0) {
+    disableWebApps = true;
+  }
+  
   $("#indicatorLights").buttonset();
 
   setupOWAInstaller();
